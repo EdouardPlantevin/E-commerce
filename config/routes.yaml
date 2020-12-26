@@ -1,6 +1,0 @@
-
-# TestController
-index:
-   path: /
-   controller: App\Controller\TestController::index
-

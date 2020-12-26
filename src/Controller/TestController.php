@@ -10,6 +10,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController
 {
+
+
+    /**
+     * @Route("/", name="index")
+     */
     public function index()
     {
         dd("Hello World");
@@ -25,4 +30,6 @@ class TestController
 
         return new Response("Vous avez $age ans! et vous vous appeler $name");
     }
+
+
 }
