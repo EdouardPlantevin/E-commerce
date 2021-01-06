@@ -15,13 +15,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class CategoryController extends AbstractController
 {
 
+    protected $categoryRepository;
     private $entityManager;
     private $slugger;
 
-    public function __construct(EntityManagerInterface $entityManagerInterface, SluggerInterface $sluggerInterface)
+    public function __construct(EntityManagerInterface $entityManagerInterface, SluggerInterface $sluggerInterface, CategoryRepository $categoryRepository)
     {
         $this->entityManager = $entityManagerInterface;
         $this->slugger = $sluggerInterface;
+        $this->categoryRepository = $categoryRepository;
     }
     /**
      * @Route("/admin/category/create", name="category_create")
