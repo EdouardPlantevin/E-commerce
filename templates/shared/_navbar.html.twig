@@ -11,26 +11,19 @@
               <a class="nav-link" href="#">{{ category.name }}</a>
           </li>
       {% endfor %}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Separated link</a>
-        </div>
-      </li>
     </ul>
     <ul class="navbar-nav">
+      {% if app.user %}
+      <li class="nav-item">
+        <a href="{{ path('security_logout') }}" class="btn btn-danger">Déconnexion</a>
+      </li>
+      {% else %}
       <li class="nav-item">
         <a href="#" class="nav-link">Inscription</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="btn btn-success">Connexion</a>
+        <a href="{{ path('security_login') }}" class="btn btn-success">Connexion</a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="btn btn-danger">Déconnexion</a>
-      </li>
+      {% endif %}
     </ul>
 </nav>

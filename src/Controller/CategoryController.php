@@ -3,14 +3,16 @@
 namespace App\Controller;
 
 use App\Form\CategoryType;
-use App\Repository\CategoryRepository;
 use Cocur\Slugify\Slugify;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CategoryController extends AbstractController
 {
@@ -55,7 +57,12 @@ class CategoryController extends AbstractController
      */
     public function edit($id, CategoryRepository $categoryRepository, Request $request): Response
     {
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Vous devez etre un administrateur pour se rendre sur cette page');
         $category = $categoryRepository->find($id);
+        if(!$category) 
+        {
+            throw $this->createNotFoundException("La categorie n'existe pas");
+        }
 
         $form = $this->createForm(CategoryType::class, $category);
 
@@ -67,10 +74,6 @@ class CategoryController extends AbstractController
             $this->entityManager->flush();
             
             $this->redirectToRoute("home");
-        }
-
-        if(!$category) {
-            throw $this->createNotFoundException("La categorie n'existe pas");
         }
 
         return $this->render('category/edit.html.twig', [
