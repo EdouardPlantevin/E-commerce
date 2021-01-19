@@ -4,10 +4,12 @@ namespace App\Controller\Purchase;
 
 use App\Cart\CartService;
 use App\Entity\Purchase;
+use App\Event\PurchaseSuccessEvent;
 use App\Repository\PurchaseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PurchasePaymentSuccessController extends AbstractController
@@ -29,7 +31,7 @@ class PurchasePaymentSuccessController extends AbstractController
      * @param $id
      * @param PurchaseRepository $purchaseRepository
      */
-    public function success($id, PurchaseRepository $purchaseRepository)
+    public function success($id, PurchaseRepository $purchaseRepository, EventDispatcherInterface $dispatcher)
     {
         $purchase = $purchaseRepository->find($id);
 
@@ -46,6 +48,10 @@ class PurchasePaymentSuccessController extends AbstractController
 
         $this->cartService->empty();
         $this->entityManager->flush();
+
+        $purchaseEvent = new PurchaseSuccessEvent($purchase);
+
+        $dispatcher->dispatch($purchaseEvent, 'purchase.success');
 
 
         $this->addFlash('success', 'La commande à été payée et confirmer');
