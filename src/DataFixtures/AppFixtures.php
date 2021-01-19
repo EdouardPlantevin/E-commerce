@@ -54,8 +54,7 @@ class AppFixtures extends Fixture
         for ($c = 0; $c < 3; $c++)
         {
             $category = new Category();
-            $category->setName($faker->company())
-                    ->setSlug(strtolower($this->slugger->slug($category->getName())));
+            $category->setName($faker->company());
 
             $manager->persist($category);
 
@@ -65,7 +64,6 @@ class AppFixtures extends Fixture
     
                 $product->setName($faker->lastName())
                         ->setPrice(mt_rand(2000, 20000))
-                        ->setSlug(strtolower($this->slugger->slug($product->getName())))
                         ->setCategory($category)
                         ->setShortDescription($faker->text())
                         ->setMainPicture("https://picsum.photos/200/200");

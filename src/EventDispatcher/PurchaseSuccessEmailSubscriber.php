@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Event;
+namespace App\EventDispatcher;
 
 
+use App\Event\PurchaseSuccessEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

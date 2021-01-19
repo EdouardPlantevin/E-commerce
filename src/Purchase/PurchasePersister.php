@@ -5,7 +5,6 @@ namespace App\Purchase;
 use App\Cart\CartService;
 use App\Entity\Purchase;
 use App\Entity\PurchaseItem;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -25,9 +24,7 @@ class PurchasePersister
 
     public function storePurchase(Purchase $purchase)
     {
-        $purchase->setUser($this->security->getUser())
-            ->setPurchasedAt(new DateTime())
-            ->setTotal($this->cartService->getTotal());
+        $purchase->setUser($this->security->getUser());
 
         foreach ($this->cartService->getDetailedCartItems() as $cartItem)
         {

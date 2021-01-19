@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Event\ProductShowEvent;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,7 +41,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/{category_slug}/{slug}", name="product_show", priority="-1")
      */
-    public function show($slug, $category_slug, ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, $prenom)
+    public function show($slug, $category_slug, ProductRepository $productRepository, CategoryRepository $categoryRepository, Request $request, $prenom, EventDispatcherInterface $dispatcher)
     {
         $category = $categoryRepository->findOneBy([
             'slug' => $category_slug
@@ -53,6 +55,9 @@ class ProductController extends AbstractController
         {
             throw $this->createNotFoundException("Le produit demandé n'existe pas");
         }
+
+        $productEvent = new ProductShowEvent($product);
+        $dispatcher->dispatch($productEvent, 'product.show');
 
         return $this->render('product/show.html.twig', [
             'product' => $product,
