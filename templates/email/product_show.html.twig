@@ -1,0 +1,9 @@
+{# @var product Entity\Product #}
+
+{{ product }}
+<h1>Visite du product {{ product.name }}</h1>
+<h2>Detail du produit</h2>
+<ul>
+    <li>Prix: {{ product.price / 100 }} €</li>
+    <li>Slug: {{ product.slug }}</li>
+</ul>

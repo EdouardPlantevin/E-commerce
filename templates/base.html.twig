@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="h-full">
     <head>
         <meta charset="UTF-8">
         <title>Site | {% block title %}Welcome!{% endblock %}</title>
@@ -8,7 +8,7 @@
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-white">
     {% include "shared/_navbar.html.twig" %}
     <div class="container pt-5">
         {% for rubrique, messages in app.flashes %}
